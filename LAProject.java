@@ -136,7 +136,7 @@ class LAProject{
         //returns info
     }
     public static boolean validatePostalCode(String Pcode) throws IOException {
-        String filename = "C:\\Workspace\\ICS3U\\MethodsAssign\\src\\postal_codes.csv";
+        String filename = "postal_codes.csv"; 
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line = reader.readLine();
         int num = -1;
