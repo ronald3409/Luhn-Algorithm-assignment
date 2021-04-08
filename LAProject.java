@@ -31,6 +31,7 @@ class LAProject{
 
             if (userInput.equals(enterCustomerOption)){
             	String custInfo = enterCustomerInfo(reader);
+				//stores information from user 
             	long id = generateId();
                 information = information.append(id).append(",").append(custInfo).append("\n");
             }
@@ -41,13 +42,17 @@ class LAProject{
         	    if (information.length() > 0) {
         		while (path == null || path.isBlank()) {
         			System.out.println("Please enter a path for your file (the path cannot be C:\\): ");
+					//prompts user to enter path for file
         			path = reader.next();
+					//allows user to input path
         		}
         		
         		String fileName = null;
         		while (fileName == null || fileName.isBlank()) {
         			System.out.println("Please enter a file name (must end in .csv): ");
+					//prompts user for name of file
         			fileName = reader.next();
+					//allows user to input name
         		}
         		
         		//calls to generate data file
@@ -88,15 +93,19 @@ class LAProject{
     //    Scanner reader = new Scanner(System.in);
         System.out.println();
         System.out.print("First name: ");
+		//prompts user for first name
         String firstname = reader.nextLine();
         //user eneters first name
         System.out.print("Last name: ");
+		//prompts user for last name
         String lastname = reader.nextLine();
         //user enters last name
         System.out.print("City: ");
+		//prompts user for city
         String city = reader.nextLine();
         //user enters City
         System.out.print("Postal Code: ");
+		//prompts user for postal code
         String postalcode = reader.nextLine();
         //user enters postal code
         int pcnum = postalcode.length();
@@ -118,18 +127,18 @@ class LAProject{
         validity = validatePostalCode(postalcode);
         }
         System.out.print("Credit Card number: ");
+		//prompts user for Credit Card number
         String creditcard = reader.nextLine();
+		//user enters credit card number
         creditcard = creditcard.trim();
-     
         // checks input credit card is valid card
         boolean isValidCreditCard = validateCreditCard(creditcard);
         while (!isValidCreditCard){
+			//if user enters in valid credit card number
         	System.out.print("Invalid credit card number. Please enter again: ");
-        	
         	creditcard = reader.nextLine();
         	isValidCreditCard = validateCreditCard(creditcard);
         }
-   //     reader.close();
         String info = firstname + ", " + lastname + ", " + city + ", " + postalcode + ", " + creditcard;
         //combines all info
         return info;
@@ -139,6 +148,7 @@ class LAProject{
         String filename = "postal_codes.csv"; 
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line = reader.readLine();
+		//skips first line
         int num = -1;
         //use to see if postal code is valid
         boolean validation;
@@ -185,21 +195,18 @@ class LAProject{
 		if (creditCard == null || creditCard.isBlank() || creditCard.length() < 9 ) {
 			return false;
 		}
-		
 		// reverses credit card order
 		String reversedCreditCard = reverseOrder(creditCard);
 		// gets the sum of odd digits from reversed credit card number
 		int oddSum = calculateSumFromOddDigits(reversedCreditCard);
 		// gets the sum of even digits from reversed credit card number
 		int evenSum = calculateSumFromEvenDigits(reversedCreditCard);
-		
 		// if sum of the odd and even digits are either/both equal to -1, the reversed credit card number is incorrect
 		if(oddSum == -1 || evenSum == -1) {
 			return false;
 		}
 		// adds the odd and even sums together
 		int sum = oddSum + evenSum;
-		
 		// gets the last digit of the sum 
 		String sumStr = String.valueOf(sum);
 		int lastPosOfSumStr = sumStr.length()-1;
@@ -287,7 +294,6 @@ class LAProject{
 		int creditCardLen = reversedCreditCard.length();
 		// finds how many even digits are in the reversed credit card
 		int numOfEven = creditCardLen / 2;
-
 		Integer[] evenArray = new Integer[numOfEven];
 		// places each credit card number into an array
 		int count = 0;
@@ -300,12 +306,10 @@ class LAProject{
 			// advances the position for the array
 			count++;
 		}
-
 		for (int j = 0; j < count; j++) {
 			// takes each credit card number out from the array and multiply by 2 
 			Integer num = evenArray[j];
 			num = num * 2;
-
 			// checks if results are > 9
 			if (num > 9) {
 				String numStr = num.toString();
@@ -375,26 +379,20 @@ class LAProject{
 	private static void writeToFile(String path, String fileName, StringBuffer strBuf) throws IOException {
 		// writes customer information into CSV output file, if the file already exists, the information will be appended to the bottom of the file
 		String pathFileName = path + fileName;
-
 		File file = new File(pathFileName);
 		boolean isFileExist = file.exists();
-		
 		file.getParentFile().mkdirs();
-		
 		FileWriter outFile = new FileWriter(file, true);
 		PrintWriter out = new PrintWriter(outFile);
-
 		// checks if file already exists. if the file already exists, header does not need to be written into the file. otherwise, a header will be included. 
 		if (!isFileExist) {
 			String header = "ID,FirstName,LastName,city,PostalCode,CreditCard";
 			out.println(header);
 		}
-
 		// checks if the customer information is empty or null. if not, append to the file. 
 		if (strBuf != null && strBuf.length() > 0) {
 			out.println(strBuf.toString());
 		}
-
 		System.out.println("Done");
 		out.close();
 	}
